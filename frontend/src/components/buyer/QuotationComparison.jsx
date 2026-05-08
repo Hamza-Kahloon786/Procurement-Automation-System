@@ -277,7 +277,7 @@ const QuotationComparison = () => {
                   </div>
                 </div>
                 <div>
-                  <h1 className="text-4xl font-black text-gray-900">
+                  <h1 className="text-2xl sm:text-4xl font-black text-gray-900">
                     Compare{' '}
                     <span className="bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
                       Quotations
@@ -295,14 +295,14 @@ const QuotationComparison = () => {
           <div className={`bg-white rounded-2xl shadow-xl p-8 mb-8 border border-gray-100 ${cardAnimations.subtle}`}>
             <div className="flex items-start justify-between mb-6">
               <div className="flex-1">
-                <h2 className="text-3xl font-bold text-gray-900 mb-3">{request.title}</h2>
+                <h2 className="text-xl sm:text-3xl font-bold text-gray-900 mb-3">{request.title}</h2>
                 {request.description && (
                   <p className="text-gray-600 leading-relaxed">{request.description}</p>
                 )}
               </div>
             </div>
 
-            <div className="grid md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-gradient-to-br from-green-50 to-white p-5 rounded-2xl border border-green-200">
                 <div className="flex items-center gap-3 mb-2">
                   <DollarSign className="h-6 w-6 text-green-600" />
@@ -624,11 +624,11 @@ const QuotationComparison = () => {
         {/* Quotations */}
         {allQuotations.length === 0 ? (
           <ScaleIn delay={300}>
-            <div className="bg-white rounded-3xl shadow-xl p-16 text-center border border-gray-100">
+            <div className="bg-white rounded-3xl shadow-xl p-8 sm:p-16 text-center border border-gray-100">
               <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Package className="h-12 w-12 text-gray-400" />
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">No Quotations Yet</h3>
+              <h3 className="text-xl sm:text-3xl font-bold text-gray-900 mb-4">No Quotations Yet</h3>
               <p className="text-gray-600 text-lg max-w-md mx-auto mb-6">
                 Vendors haven't submitted any quotations. Upload PDFs from other sources to compare!
               </p>
@@ -679,7 +679,7 @@ const QuotationComparison = () => {
                     )}
                     
                     {/* Vendor Header */}
-                    <div className="flex items-start justify-between mb-5">
+                    <div className="flex flex-col sm:flex-row items-start justify-between mb-5 gap-4">
                       <div className="flex items-center gap-4 flex-1">
                         <div className={`w-14 h-14 bg-gradient-to-br ${
                           isLowest ? 'from-green-500 to-green-700' : 'from-gray-700 to-gray-900'
@@ -720,9 +720,9 @@ const QuotationComparison = () => {
                       </div>
 
                       {/* Total Amount */}
-                      <div className="text-right ml-4 flex-shrink-0">
+                      <div className="text-left sm:text-right ml-0 sm:ml-4 flex-shrink-0">
                         <p className="text-xs text-gray-500 mb-1 font-medium">Total Amount</p>
-                        <p className={`text-3xl font-black ${isLowest ? 'text-green-600' : 'text-gray-900'}`}>
+                        <p className={`text-xl sm:text-3xl font-black ${isLowest ? 'text-green-600' : 'text-gray-900'}`}>
                           ${quotation.total_amount?.toLocaleString() || '0'}
                         </p>
                         {quotation.isUploaded && quotation.filename && (
@@ -732,7 +732,7 @@ const QuotationComparison = () => {
                     </div>
 
                     {/* Quotation Details */}
-                    <div className="grid md:grid-cols-4 gap-3 mb-5">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
                       <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 border border-gray-200 text-center">
                         <Package className="h-5 w-5 text-primary-600 mx-auto mb-2" />
                         <p className="text-xs text-gray-500 mb-1 font-medium">Items</p>

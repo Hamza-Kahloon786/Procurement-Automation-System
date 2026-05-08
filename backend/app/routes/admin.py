@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
+from datetime import datetime, timedelta
 from bson import ObjectId
 from app.models.user import UserResponse
 from app.database import get_database
@@ -135,3 +136,49 @@ async def get_recent_activity(current_user: dict = Depends(verify_admin)):
         "recent_quotations": [serialize_objectid(q) for q in recent_quotations],
         "recent_users": [serialize_objectid(u) for u in recent_users]
     }
+
+@router.get("/monthly-stats")
+async def get_monthly_stats(current_user: dict = Depends(verify_admin)):
+    db = await get_database()
+
+    # Get the last 6 months
+    now = datetime.utcnow()
+    months = []
+    for i in range(5, -1, -1):
+        # First day of each month
+        d = now.replace(day=1) - timedelta(days=i * 30)
+        d = d.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        months.append(d)
+
+    month_labels = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ]
+
+    results = []
+    for idx, start in enumerate(months):
+        # End of month
+        if start.month == 12:
+            end = start.replace(year=start.year + 1, month=1)
+        else:
+            end = start.replace(month=start.month + 1)
+
+        requests_count = await db.procurement_requests.count_documents({
+            "posted_at": {"$gte": start, "$lt": end}
+        })
+        quotations_count = await db.quotations.count_documents({
+            "submitted_at": {"$gte": start, "$lt": end}
+        })
+        users_count = await db.users.count_documents({
+            "created_at": {"$gte": start, "$lt": end}
+        })
+
+        results.append({
+            "month": month_labels[start.month - 1],
+            "year": start.year,
+            "requests": requests_count,
+            "quotations": quotations_count,
+            "users": users_count,
+        })
+
+    return results
