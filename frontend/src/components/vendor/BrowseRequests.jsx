@@ -117,7 +117,7 @@ const BrowseRequests = () => {
                 </div>
               </div>
               <div>
-                <h1 className="text-4xl font-black text-gray-900">
+                <h1 className="text-2xl sm:text-4xl font-black text-gray-900">
                   Browse{' '}
                   <span className="bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
                     Opportunities
@@ -146,11 +146,11 @@ const BrowseRequests = () => {
 
         {filteredRequests.length === 0 ? (
           <ScaleIn delay={200}>
-            <div className="bg-white rounded-3xl shadow-xl p-16 text-center border border-gray-100">
+            <div className="bg-white rounded-3xl shadow-xl p-8 sm:p-16 text-center border border-gray-100">
               <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <FileText className="h-12 w-12 text-gray-400" />
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">No Requests Available</h3>
+              <h3 className="text-xl sm:text-3xl font-bold text-gray-900 mb-4">No Requests Available</h3>
               <p className="text-gray-600 text-lg">Check back soon for new opportunities</p>
             </div>
           </ScaleIn>
@@ -182,7 +182,7 @@ const BrowseRequests = () => {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div className="flex items-center gap-2 p-3 bg-green-50 rounded-xl">
                         <DollarSign className="h-5 w-5 text-green-600" />
                         <div>
@@ -273,7 +273,7 @@ const BrowseRequests = () => {
 
               <div className="bg-gradient-to-br from-primary-50 to-white p-6 rounded-2xl border border-primary-200 mb-6">
                 <h3 className="font-bold text-gray-900 mb-2">{selectedRequest.title}</h3>
-                <div className="grid grid-cols-2 gap-4 mt-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                   <div className="flex items-center gap-2">
                     <DollarSign className="h-4 w-4 text-green-600" />
                     <span className="text-sm text-gray-600">Budget: <strong>${selectedRequest.budget.toLocaleString()}</strong></span>

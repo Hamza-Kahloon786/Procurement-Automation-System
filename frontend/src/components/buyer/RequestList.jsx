@@ -108,7 +108,7 @@ const RequestList = () => {
                   </div>
                 </div>
                 <div>
-                  <h1 className="text-4xl font-black text-gray-900">
+                  <h1 className="text-2xl sm:text-4xl font-black text-gray-900">
                     My{' '}
                     <span className="bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
                       Requests
@@ -120,7 +120,7 @@ const RequestList = () => {
               
               <button
                 onClick={() => navigate('/buyer/create-request')}
-                className={`px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-bold text-lg ${buttonAnimations.primary} flex items-center gap-3 shadow-xl shadow-primary-600/30`}
+                className={`px-4 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-bold text-sm sm:text-lg ${buttonAnimations.primary} flex items-center gap-2 sm:gap-3 shadow-xl shadow-primary-600/30`}
               >
                 <Plus className="h-6 w-6" />
                 Create Request
@@ -194,11 +194,11 @@ const RequestList = () => {
         {/* Requests Display */}
         {filteredRequests.length === 0 ? (
           <ScaleIn delay={200}>
-            <div className="bg-white rounded-3xl shadow-xl p-16 text-center border border-gray-100">
+            <div className="bg-white rounded-3xl shadow-xl p-8 sm:p-16 text-center border border-gray-100">
               <div className="w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
                 <FileText className="h-12 w-12 text-gray-400" />
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">
+              <h3 className="text-xl sm:text-3xl font-bold text-gray-900 mb-4">
                 {searchTerm ? 'No matching requests' : 'No requests yet'}
               </h3>
               <p className="text-gray-600 mb-8 max-w-md mx-auto text-lg">
@@ -249,7 +249,7 @@ const RequestList = () => {
                     )}
 
                     {/* Stats */}
-                    <div className="grid grid-cols-3 gap-3 mb-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
                       <div className="bg-gray-50 rounded-xl p-3 text-center">
                         <DollarSign className="h-4 w-4 text-green-600 mx-auto mb-1" />
                         <p className="text-xs text-gray-500">Budget</p>

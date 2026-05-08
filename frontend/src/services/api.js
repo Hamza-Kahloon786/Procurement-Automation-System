@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000';
+// Auto-detect: localhost → local backend, production → /api proxy
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:8000'
+  : 'https://aipas.duckdns.org/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -39,7 +42,6 @@ export const buyerAPI = {
   exportQuotationsExcel: (requestId) => api.get(`/buyer/requests/${requestId}/export-excel`, {
     responseType: 'blob'
   }),
-  // Quick Compare - Upload and compare PDFs from any source
   quickCompare: (formData) => api.post('/buyer/quick-compare', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   }),
@@ -47,7 +49,6 @@ export const buyerAPI = {
     headers: { 'Content-Type': 'multipart/form-data' },
     responseType: 'blob'
   }),
-  // Combined export - Vendor quotations + uploaded PDFs
   exportCombinedExcel: (requestId, formData) => api.post(`/buyer/requests/${requestId}/export-combined-excel`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
     responseType: 'blob'
@@ -76,7 +77,15 @@ export const adminAPI = {
   unverifyUser: (userId) => api.post(`/admin/users/${userId}/unverify`),
   deleteUser: (userId) => api.delete(`/admin/users/${userId}`),
   getStats: () => api.get('/admin/stats'),
+  getMonthlyStats: () => api.get('/admin/monthly-stats'),
   getRecentActivity: () => api.get('/admin/recent-activity'),
+};
+
+// Chat APIs - AI Chatbot
+export const chatAPI = {
+  sendMessage: (message, chatType = 'general', history = []) => 
+    api.post('/chat/send', { message, chat_type: chatType, history }),
+  healthCheck: () => api.get('/chat/health'),
 };
 
 export default api;

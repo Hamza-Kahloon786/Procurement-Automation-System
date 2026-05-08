@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { getUser } from '../../utils/auth';
 import { FadeIn, SlideUp, ScaleIn } from './AnimatedComponents';
+import { useTheme } from '../../context/ThemeContext';
 
 const Settings = () => {
   const user = getUser();
@@ -48,7 +49,7 @@ const Settings = () => {
   });
 
   // Theme Settings
-  const [theme, setTheme] = useState('light');
+  const { theme, setTheme } = useTheme();
 
   const handleNotificationChange = (key) => {
     setNotifications(prev => ({ ...prev, [key]: !prev[key] }));
@@ -115,8 +116,8 @@ const Settings = () => {
         {/* Header */}
         <div className="mb-8">
           <SlideUp>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Settings</h1>
-            <p className="text-gray-500">Manage your account settings and preferences</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">Settings</h1>
+            <p className="text-gray-500 dark:text-gray-400">Manage your account settings and preferences</p>
           </SlideUp>
         </div>
 
@@ -143,15 +144,15 @@ const Settings = () => {
         <div className="space-y-6">
           {/* Notification Settings */}
           <SlideUp delay={100}>
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-              <div className="p-6 border-b border-gray-100">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-100 dark:border-gray-700">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center">
                     <Bell className="h-6 w-6 text-primary-600" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Notifications</h2>
-                    <p className="text-sm text-gray-500">Manage how you receive updates</p>
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Notifications</h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Manage how you receive updates</p>
                   </div>
                 </div>
               </div>
@@ -166,14 +167,14 @@ const Settings = () => {
                 ].map((item) => {
                   const Icon = item.icon;
                   return (
-                    <div key={item.key} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-300">
+                    <div key={item.key} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-300">
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
-                          <Icon className="h-5 w-5 text-gray-600" />
+                        <div className="w-10 h-10 bg-white dark:bg-gray-600 rounded-lg flex items-center justify-center shadow-sm">
+                          <Icon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                         </div>
                         <div>
-                          <p className="font-semibold text-gray-900">{item.label}</p>
-                          <p className="text-sm text-gray-500">{item.desc}</p>
+                          <p className="font-semibold text-gray-900 dark:text-gray-100">{item.label}</p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">{item.desc}</p>
                         </div>
                       </div>
                       <button
@@ -208,15 +209,15 @@ const Settings = () => {
 
           {/* Security Settings */}
           <SlideUp delay={200}>
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-              <div className="p-6 border-b border-gray-100">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-100 dark:border-gray-700">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-xl flex items-center justify-center">
                     <Shield className="h-6 w-6 text-red-600" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Security</h2>
-                    <p className="text-sm text-gray-500">Manage your password and security settings</p>
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Security</h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Manage your password and security settings</p>
                   </div>
                 </div>
               </div>
@@ -225,28 +226,28 @@ const Settings = () => {
                 {!showPasswordSection ? (
                   <button
                     onClick={() => setShowPasswordSection(true)}
-                    className="flex items-center gap-3 px-6 py-4 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors duration-300 w-full text-left"
+                    className="flex items-center gap-3 px-6 py-4 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-xl transition-colors duration-300 w-full text-left"
                   >
-                    <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
-                      <Lock className="h-5 w-5 text-gray-600" />
+                    <div className="w-10 h-10 bg-white dark:bg-gray-600 rounded-lg flex items-center justify-center shadow-sm">
+                      <Lock className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900">Change Password</p>
-                      <p className="text-sm text-gray-500">Update your account password</p>
+                      <p className="font-semibold text-gray-900 dark:text-gray-100">Change Password</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Update your account password</p>
                     </div>
                   </button>
                 ) : (
                   <div className="space-y-4">
                     {/* Current Password */}
                     <div className="space-y-2">
-                      <label className="block text-sm font-semibold text-gray-700">Current Password</label>
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Current Password</label>
                       <div className="relative">
                         <input
                           type={showPasswords.current ? 'text' : 'password'}
                           name="currentPassword"
                           value={passwords.currentPassword}
                           onChange={handlePasswordChange}
-                          className="w-full px-4 py-3 pr-12 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900"
+                          className="w-full px-4 py-3 pr-12 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900 dark:text-gray-100"
                           placeholder="Enter current password"
                         />
                         <button
@@ -261,14 +262,14 @@ const Settings = () => {
 
                     {/* New Password */}
                     <div className="space-y-2">
-                      <label className="block text-sm font-semibold text-gray-700">New Password</label>
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">New Password</label>
                       <div className="relative">
                         <input
                           type={showPasswords.new ? 'text' : 'password'}
                           name="newPassword"
                           value={passwords.newPassword}
                           onChange={handlePasswordChange}
-                          className="w-full px-4 py-3 pr-12 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900"
+                          className="w-full px-4 py-3 pr-12 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900 dark:text-gray-100"
                           placeholder="Enter new password"
                         />
                         <button
@@ -283,14 +284,14 @@ const Settings = () => {
 
                     {/* Confirm Password */}
                     <div className="space-y-2">
-                      <label className="block text-sm font-semibold text-gray-700">Confirm New Password</label>
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Confirm New Password</label>
                       <div className="relative">
                         <input
                           type={showPasswords.confirm ? 'text' : 'password'}
                           name="confirmPassword"
                           value={passwords.confirmPassword}
                           onChange={handlePasswordChange}
-                          className="w-full px-4 py-3 pr-12 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900"
+                          className="w-full px-4 py-3 pr-12 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 text-gray-900 dark:text-gray-100"
                           placeholder="Confirm new password"
                         />
                         <button
@@ -310,7 +311,7 @@ const Settings = () => {
                           setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' });
                           setError('');
                         }}
-                        className="px-6 py-3 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-xl font-semibold transition-all duration-300"
+                        className="px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-xl font-semibold transition-all duration-300"
                       >
                         Cancel
                       </button>
@@ -335,15 +336,15 @@ const Settings = () => {
 
           {/* Appearance Settings */}
           <SlideUp delay={300}>
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-              <div className="p-6 border-b border-gray-100">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-100 dark:border-gray-700">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl flex items-center justify-center">
                     <Sun className="h-6 w-6 text-yellow-600" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Appearance</h2>
-                    <p className="text-sm text-gray-500">Customize how the app looks</p>
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Appearance</h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Customize how the app looks</p>
                   </div>
                 </div>
               </div>
@@ -362,24 +363,24 @@ const Settings = () => {
                         onClick={() => setTheme(option.value)}
                         className={`flex-1 flex flex-col items-center gap-3 p-4 rounded-xl border-2 transition-all duration-300 ${
                           theme === option.value
-                            ? 'border-primary-500 bg-primary-50'
-                            : 'border-gray-200 hover:border-gray-300 bg-gray-50'
+                            ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                            : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 bg-gray-50 dark:bg-gray-700'
                         }`}
                       >
                         <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                          theme === option.value ? 'bg-primary-100' : 'bg-white'
+                          theme === option.value ? 'bg-primary-100 dark:bg-primary-900/30' : 'bg-white dark:bg-gray-600'
                         }`}>
-                          <Icon className={`h-6 w-6 ${theme === option.value ? 'text-primary-600' : 'text-gray-500'}`} />
+                          <Icon className={`h-6 w-6 ${theme === option.value ? 'text-primary-600' : 'text-gray-500 dark:text-gray-300'}`} />
                         </div>
-                        <span className={`font-semibold ${theme === option.value ? 'text-primary-700' : 'text-gray-700'}`}>
+                        <span className={`font-semibold ${theme === option.value ? 'text-primary-700 dark:text-primary-400' : 'text-gray-700 dark:text-gray-200'}`}>
                           {option.label}
                         </span>
                       </button>
                     );
                   })}
                 </div>
-                <p className="mt-4 text-sm text-gray-500 text-center">
-                  Theme customization coming soon!
+                <p className="mt-4 text-sm text-gray-500 dark:text-gray-400 text-center">
+                  Choose your preferred appearance
                 </p>
               </div>
             </div>
