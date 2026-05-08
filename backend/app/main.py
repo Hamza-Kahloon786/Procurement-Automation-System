@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from app.database import connect_to_mongo, close_mongo_connection
-from app.routes import auth, buyer, vendor, admin
+from app.routes import auth, buyer, vendor, admin, chat
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -22,11 +22,14 @@ app = FastAPI(
 # CORS - Configure to allow frontend requests
 app.add_middleware(
     CORSMiddleware,
+    # ✅ NEW (add your domain — keep localhost for local dev)
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:3000",
         "http://127.0.0.1:5173",
-        "http://127.0.0.1:3000"
+        "http://127.0.0.1:3000",
+        "https://aipas.duckdns.org",
+        "http://aipas.duckdns.org"
     ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
@@ -40,6 +43,7 @@ app.include_router(auth.router)
 app.include_router(buyer.router)
 app.include_router(vendor.router)
 app.include_router(admin.router)
+app.include_router(chat.router)  # AI Chatbot routes
 
 @app.get("/")
 async def root():

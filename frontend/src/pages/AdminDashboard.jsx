@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from '../components/common/Navbar';
 import Sidebar from '../components/common/Sidebar';
@@ -12,22 +12,29 @@ import Documentation from '../components/common/Documentation';
 import FAQs from '../components/common/FAQs';
 
 const AdminDashboard = () => {
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
+      <Navbar onMobileMenuToggle={() => setIsMobileSidebarOpen(true)} />
       <div className="flex">
-        <Sidebar />
-        <main className="flex-1">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/users" element={<UserManagement />} />
-            <Route path="/stats" element={<Statistics />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/notifications" element={<Notifications />} />
-            <Route path="/documentation" element={<Documentation />} />
-            <Route path="/faqs" element={<FAQs />} />
-          </Routes>
+        <Sidebar 
+          isMobileOpen={isMobileSidebarOpen} 
+          onMobileClose={() => setIsMobileSidebarOpen(false)} 
+        />
+        <main className="flex-1 w-full lg:w-auto min-w-0">
+          <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/users" element={<UserManagement />} />
+              <Route path="/stats" element={<Statistics />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/notifications" element={<Notifications />} />
+              <Route path="/documentation" element={<Documentation />} />
+              <Route path="/faqs" element={<FAQs />} />
+            </Routes>
+          </div>
         </main>
       </div>
     </div>

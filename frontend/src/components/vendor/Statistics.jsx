@@ -90,15 +90,28 @@ const Statistics = () => {
     status: quot.status === 'accepted' ? 1 : quot.status === 'rejected' ? 0 : 0.5
   }));
 
-  // Monthly Activity (Mock data)
-  const monthlyActivity = [
-    { month: 'Jan', submitted: 3, accepted: 1 },
-    { month: 'Feb', submitted: 5, accepted: 2 },
-    { month: 'Mar', submitted: 4, accepted: 1 },
-    { month: 'Apr', submitted: 6, accepted: 3 },
-    { month: 'May', submitted: 7, accepted: 2 },
-    { month: 'Jun', submitted: totalQuotations, accepted: acceptedQuotations }
-  ];
+  // Monthly Activity (computed from real quotation data using submitted_at)
+  const monthlyActivity = (() => {
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthMap = {};
+
+    quotations.forEach(q => {
+      const date = q.submitted_at ? new Date(q.submitted_at) : null;
+      if (!date || isNaN(date.getTime())) return;
+      const key = `${date.getFullYear()}-${date.getMonth()}`;
+      if (!monthMap[key]) {
+        monthMap[key] = { month: monthNames[date.getMonth()], year: date.getFullYear(), submitted: 0, accepted: 0 };
+      }
+      monthMap[key].submitted += 1;
+      if (q.status === 'accepted') {
+        monthMap[key].accepted += 1;
+      }
+    });
+
+    return Object.values(monthMap)
+      .sort((a, b) => a.year - b.year || monthNames.indexOf(a.month) - monthNames.indexOf(b.month))
+      .slice(-6);
+  })();
 
   // Opportunity Analysis
   const opportunityData = [
@@ -143,7 +156,7 @@ const Statistics = () => {
     <div className="max-w-7xl mx-auto p-6 animate-fade-in">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2 animate-slide-in-left">
+        <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-2 animate-slide-in-left">
           📊 My Performance Analytics
         </h1>
         <p className="text-gray-600 animate-slide-in-left" style={{ animationDelay: '0.1s' }}>

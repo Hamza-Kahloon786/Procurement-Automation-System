@@ -10,6 +10,7 @@ import { cardAnimations, buttonAnimations } from '../../utils/animations';
 
 const Statistics = () => {
   const [stats, setStats] = useState(null);
+  const [monthlyData, setMonthlyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -21,8 +22,12 @@ const Statistics = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await adminAPI.getStats();
-      setStats(response.data);
+      const [statsResponse, monthlyResponse] = await Promise.all([
+        adminAPI.getStats(),
+        adminAPI.getMonthlyStats()
+      ]);
+      setStats(statsResponse.data);
+      setMonthlyData(monthlyResponse.data);
     } catch (error) {
       console.error('Failed to fetch statistics:', error);
       setError('Failed to load statistics');
@@ -96,49 +101,40 @@ const Statistics = () => {
     { name: 'Total', count: stats?.quotations?.total || 0, fill: '#3B82F6' }
   ];
 
-  // Monthly Activity Data (Mock - would come from backend)
-  const monthlyActivityData = [
-    { month: 'Jan', requests: 45, quotations: 120, users: 15 },
-    { month: 'Feb', requests: 52, quotations: 145, users: 22 },
-    { month: 'Mar', requests: 61, quotations: 168, users: 28 },
-    { month: 'Apr', requests: 58, quotations: 172, users: 31 },
-    { month: 'May', requests: 70, quotations: 195, users: 35 },
-    { month: 'Jun', requests: stats?.requests?.total || 75, quotations: stats?.quotations?.total || 210, users: (stats?.users?.total_buyers || 0) + (stats?.users?.total_vendors || 0) }
-  ];
+  // Monthly Activity Data (from backend)
+  const monthlyActivityData = monthlyData.length > 0
+    ? monthlyData.map(m => ({ month: m.month, requests: m.requests, quotations: m.quotations, users: m.users }))
+    : [];
 
   // Performance Metrics
+  const totalUsers = (stats?.users?.total_buyers || 0) + (stats?.users?.total_vendors || 0);
+  const acceptanceRate = stats?.quotations?.total ? Math.round((stats?.quotations?.accepted / stats?.quotations?.total) * 100) : 0;
+  const openRate = stats?.requests?.total ? Math.round((stats?.requests?.open / stats?.requests?.total) * 100) : 0;
+
   const performanceMetrics = [
     {
       title: 'Active Users',
-      value: (stats?.users?.total_buyers || 0) + (stats?.users?.total_vendors || 0),
+      value: totalUsers,
       icon: Users,
       color: 'bg-blue-500',
-      trend: '+12%',
-      trendUp: true
     },
     {
       title: 'Total Requests',
       value: stats?.requests?.total || 0,
       icon: FileText,
       color: 'bg-purple-500',
-      trend: '+8%',
-      trendUp: true
     },
     {
       title: 'Total Quotations',
       value: stats?.quotations?.total || 0,
       icon: Package,
       color: 'bg-orange-500',
-      trend: '+15%',
-      trendUp: true
     },
     {
       title: 'Acceptance Rate',
-      value: stats?.quotations?.total ? `${Math.round((stats?.quotations?.accepted / stats?.quotations?.total) * 100)}%` : '0%',
+      value: `${acceptanceRate}%`,
       icon: TrendingUp,
       color: 'bg-green-500',
-      trend: '+5%',
-      trendUp: true
     }
   ];
 
@@ -147,7 +143,7 @@ const Statistics = () => {
       {/* Header */}
       <div className="mb-8">
         <SlideUp>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-500 via-primary-600 to-primary-800 bg-clip-text text-transparent mb-2">
+          <h1 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-primary-500 via-primary-600 to-primary-800 bg-clip-text text-transparent mb-2">
             📊 Platform Statistics
           </h1>
         </SlideUp>
@@ -165,20 +161,11 @@ const Statistics = () => {
           return (
             <ScaleIn key={index} delay={index * 100}>
               <div className={`bg-white rounded-xl shadow-lg p-6 border border-gray-100 ${cardAnimations.glow}`}>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3 flex-1">
-                    <div className={`${metric.color} p-3 rounded-lg transform transition-transform duration-300 hover:rotate-12 hover:scale-110 flex-shrink-0`}>
-                      <Icon className="h-6 w-6 text-white" />
-                    </div>
-                    <h3 className="text-gray-600 text-sm font-medium">{metric.title}</h3>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className={`${metric.color} p-3 rounded-lg transform transition-transform duration-300 hover:rotate-12 hover:scale-110 flex-shrink-0`}>
+                    <Icon className="h-6 w-6 text-white" />
                   </div>
-                  <span className={`text-sm font-bold px-2 py-1 rounded-full flex-shrink-0 ${
-                    metric.trendUp 
-                      ? 'text-green-600 bg-green-100 animate-pulse-slow' 
-                      : 'text-red-600 bg-red-100'
-                  }`}>
-                    {metric.trend}
-                  </span>
+                  <h3 className="text-gray-600 text-sm font-medium">{metric.title}</h3>
                 </div>
                 <p className="text-3xl font-bold text-gray-900">
                   {typeof metric.value === 'number' ? (
@@ -387,7 +374,7 @@ const Statistics = () => {
                 <Calendar className="h-12 w-12 mb-4 opacity-90" />
               </div>
               <h3 className="text-xl font-bold mb-2">Active This Month</h3>
-              <p className="text-4xl font-bold mb-2">
+              <p className="text-2xl sm:text-4xl font-bold mb-2">
                 <CountUp end={stats?.requests?.open || 0} duration={2000} />
               </p>
               <p className="text-red-100 text-sm">Open procurement requests</p>
@@ -403,7 +390,7 @@ const Statistics = () => {
                 <DollarSign className="h-12 w-12 mb-4 opacity-90" />
               </div>
               <h3 className="text-xl font-bold mb-2">Success Rate</h3>
-              <p className="text-4xl font-bold mb-2">
+              <p className="text-2xl sm:text-4xl font-bold mb-2">
                 {stats?.quotations?.total ? `${Math.round((stats?.quotations?.accepted / stats?.quotations?.total) * 100)}%` : '0%'}
               </p>
               <p className="text-gray-300 text-sm">Quotations accepted rate</p>
@@ -418,9 +405,11 @@ const Statistics = () => {
               <div className="animate-float">
                 <Activity className="h-12 w-12 mb-4 opacity-90" />
               </div>
-              <h3 className="text-xl font-bold mb-2">Platform Activity</h3>
-              <p className="text-4xl font-bold mb-2 animate-pulse-slow">High</p>
-              <p className="text-red-100 text-sm">Based on recent interactions</p>
+              <h3 className="text-xl font-bold mb-2">Open Requests</h3>
+              <p className="text-2xl sm:text-4xl font-bold mb-2">
+                <CountUp end={openRate} duration={2000} />%
+              </p>
+              <p className="text-red-100 text-sm">Of total requests currently open</p>
             </div>
           </div>
         </ScrollReveal>
