@@ -8,6 +8,8 @@ import VendorDashboard from './pages/VendorDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import { isAuthenticated, getUserRole } from './utils/auth';
 import { NotificationProvider } from './context/NotificationContext';
+import { ThemeProvider } from './context/ThemeContext';
+import ScrollToTop from './components/common/ScrollToTop';
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   if (!isAuthenticated()) {
@@ -24,42 +26,45 @@ const PrivateRoute = ({ children, allowedRoles }) => {
 
 function App() {
   return (
-    <NotificationProvider>
-      <Router>
-        <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        
-        <Route
-          path="/buyer/*"
-          element={
-            <PrivateRoute allowedRoles={['buyer']}>
-              <BuyerDashboard />
-            </PrivateRoute>
-          }
-        />
-        
-        <Route
-          path="/vendor/*"
-          element={
-            <PrivateRoute allowedRoles={['vendor']}>
-              <VendorDashboard />
-            </PrivateRoute>
-          }
-        />
-        
-        <Route
-          path="/admin/*"
-          element={
-            <PrivateRoute allowedRoles={['admin']}>
-              <AdminDashboard />
-            </PrivateRoute>
-          }
-        />
-        </Routes>
-      </Router>
-    </NotificationProvider>
+    <ThemeProvider>
+      <NotificationProvider>
+        <Router>
+          <ScrollToTop />
+          <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          
+          <Route
+            path="/buyer/*"
+            element={
+              <PrivateRoute allowedRoles={['buyer']}>
+                <BuyerDashboard />
+              </PrivateRoute>
+            }
+          />
+          
+          <Route
+            path="/vendor/*"
+            element={
+              <PrivateRoute allowedRoles={['vendor']}>
+                <VendorDashboard />
+              </PrivateRoute>
+            }
+          />
+          
+          <Route
+            path="/admin/*"
+            element={
+              <PrivateRoute allowedRoles={['admin']}>
+                <AdminDashboard />
+              </PrivateRoute>
+            }
+          />
+          </Routes>
+        </Router>
+      </NotificationProvider>
+    </ThemeProvider>
   );
 }
 

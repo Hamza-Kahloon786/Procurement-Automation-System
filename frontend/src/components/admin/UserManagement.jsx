@@ -432,7 +432,7 @@ const UserManagement = () => {
                 return (
                   <div key={i} className={`bg-gradient-to-br ${stat.color} rounded-2xl p-6 text-white`}>
                     <Icon className="h-8 w-8 mb-3 opacity-80" />
-                    <div className="text-4xl font-black mb-1">{stat.value}</div>
+                    <div className="text-2xl sm:text-4xl font-black mb-1">{stat.value}</div>
                     <div className="text-white/80 text-sm font-medium">{stat.label}</div>
                   </div>
                 );

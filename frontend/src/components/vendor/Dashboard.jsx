@@ -181,7 +181,7 @@ const VendorDashboard = () => {
                     </div>
                   </div>
                   <div>
-                    <h1 className="text-4xl lg:text-5xl font-black text-gray-900">
+                    <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-gray-900">
                       Vendor{' '}
                       <span className="bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
                         Dashboard
@@ -189,16 +189,16 @@ const VendorDashboard = () => {
                     </h1>
                   </div>
                 </div>
-                <p className="text-lg text-gray-600 ml-15">
+                <p className="text-lg text-gray-600 sm:ml-15">
                   Browse requests and manage your quotations
                 </p>
               </div>
               
               <button
                 onClick={() => navigate('/vendor/browse')}
-                className={`px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-bold text-lg ${buttonAnimations.primary} flex items-center gap-3 shadow-xl shadow-primary-600/30`}
+                className={`px-4 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-xl font-bold text-sm sm:text-lg ${buttonAnimations.primary} flex items-center gap-2 sm:gap-3 shadow-xl shadow-primary-600/30`}
               >
-                <Search className="h-6 w-6" />
+                <Search className="h-5 w-5 sm:h-6 sm:w-6" />
                 Browse Opportunities
               </button>
             </div>
@@ -235,7 +235,7 @@ const VendorDashboard = () => {
                       </h3>
                     </div>
 
-                    <div className={`text-4xl font-black ${stat.textColor} mb-2`}>
+                    <div className={`text-2xl sm:text-4xl font-black ${stat.textColor} mb-2`}>
                       <CountUp end={stat.value} duration={2000} />
                     </div>
 

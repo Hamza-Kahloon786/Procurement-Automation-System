@@ -143,34 +143,43 @@ const AdminDashboard = () => {
     },
   ];
 
+  const totalUsers = (stats?.users?.total_buyers || 0) + (stats?.users?.total_vendors || 0);
+  const acceptanceRate = stats?.quotations?.total
+    ? Math.round((stats.quotations.accepted / stats.quotations.total) * 100)
+    : 0;
+  const openRate = stats?.requests?.total
+    ? Math.round((stats.requests.open / stats.requests.total) * 100)
+    : 0;
+  const awardedCount = stats?.requests?.awarded || 0;
+
   const performanceMetrics = [
     {
-      title: 'Platform Health',
-      value: '99.9%',
+      title: 'Total Users',
+      value: totalUsers,
       icon: Activity,
       color: 'from-green-500 to-green-700',
-      description: 'Uptime this month'
+      description: 'Buyers & Vendors'
     },
     {
-      title: 'Avg Response Time',
-      value: '1.2s',
+      title: 'Open Rate',
+      value: `${openRate}%`,
       icon: Zap,
       color: 'from-yellow-500 to-yellow-700',
-      description: 'API performance'
+      description: 'Requests currently open'
     },
     {
-      title: 'Success Rate',
-      value: '98.5%',
+      title: 'Acceptance Rate',
+      value: `${acceptanceRate}%`,
       icon: Award,
       color: 'from-blue-500 to-blue-700',
-      description: 'Completed transactions'
+      description: 'Quotations accepted'
     },
     {
-      title: 'Active Sessions',
-      value: '247',
+      title: 'Awarded Requests',
+      value: awardedCount,
       icon: Target,
       color: 'from-purple-500 to-purple-700',
-      description: 'Current online users'
+      description: 'Successfully completed'
     }
   ];
 
@@ -196,7 +205,7 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                   <div>
-                    <h1 className="text-4xl lg:text-5xl font-black text-gray-900">
+                    <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-gray-900">
                       Admin{' '}
                       <span className="bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
                         Dashboard
@@ -204,7 +213,7 @@ const AdminDashboard = () => {
                     </h1>
                   </div>
                 </div>
-                <p className="text-lg text-gray-600 ml-15">
+                <p className="text-lg text-gray-600 sm:ml-15">
                   Monitor and manage your procurement platform
                 </p>
               </div>
@@ -236,7 +245,7 @@ const AdminDashboard = () => {
                     </div>
 
                     {/* Value */}
-                    <div className={`text-4xl font-black ${stat.textColor} mb-2`}>
+                    <div className={`text-2xl sm:text-4xl font-black ${stat.textColor} mb-2`}>
                       <CountUp end={stat.value} duration={2000} />
                     </div>
 
@@ -313,7 +322,7 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-4xl font-black text-yellow-600">
+                    <div className="text-2xl sm:text-4xl font-black text-yellow-600">
                       <CountUp end={stats?.quotations?.submitted || 0} duration={2000} />
                     </div>
                   </div>
@@ -330,7 +339,7 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-4xl font-black text-green-600">
+                    <div className="text-2xl sm:text-4xl font-black text-green-600">
                       <CountUp end={stats?.quotations?.accepted || 0} duration={2000} />
                     </div>
                   </div>
@@ -339,7 +348,7 @@ const AdminDashboard = () => {
                 <div className="pt-6 mt-6 border-t-2 border-gray-200">
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-bold text-gray-900">Total Quotations</span>
-                    <span className="text-5xl font-black bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
+                    <span className="text-3xl sm:text-5xl font-black bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
                       <CountUp end={stats?.quotations?.total || 0} duration={2000} />
                     </span>
                   </div>
@@ -379,7 +388,7 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-4xl font-black text-green-600">
+                    <div className="text-2xl sm:text-4xl font-black text-green-600">
                       <CountUp end={stats?.requests?.open || 0} duration={2000} />
                     </div>
                   </div>
@@ -396,7 +405,7 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-4xl font-black text-gray-600">
+                    <div className="text-2xl sm:text-4xl font-black text-gray-600">
                       <CountUp end={(stats?.requests?.total || 0) - (stats?.requests?.open || 0)} duration={2000} />
                     </div>
                   </div>
@@ -405,7 +414,7 @@ const AdminDashboard = () => {
                 <div className="pt-6 mt-6 border-t-2 border-gray-200">
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-bold text-gray-900">Total Requests</span>
-                    <span className="text-5xl font-black bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
+                    <span className="text-3xl sm:text-5xl font-black bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
                       <CountUp end={stats?.requests?.total || 0} duration={2000} />
                     </span>
                   </div>
