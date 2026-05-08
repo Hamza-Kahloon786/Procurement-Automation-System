@@ -107,7 +107,7 @@ const CreateRequest = () => {
                 </div>
               </div>
               <div>
-                <h1 className="text-4xl font-black text-gray-900">
+                <h1 className="text-2xl sm:text-4xl font-black text-gray-900">
                   Create{' '}
                   <span className="bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
                     Procurement Request

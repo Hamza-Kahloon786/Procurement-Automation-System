@@ -108,7 +108,7 @@ const MyQuotations = () => {
                 </div>
               </div>
               <div>
-                <h1 className="text-4xl font-black text-gray-900">
+                <h1 className="text-2xl sm:text-4xl font-black text-gray-900">
                   My{' '}
                   <span className="bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
                     Quotations
@@ -120,7 +120,7 @@ const MyQuotations = () => {
           </SlideUp>
 
           <SlideUp delay={100}>
-            <div className="grid md:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               {[
                 { key: 'all', label: 'All', icon: Package, count: statusCounts.all },
                 { key: 'submitted', label: 'Pending', icon: Clock, count: statusCounts.submitted },
@@ -152,11 +152,11 @@ const MyQuotations = () => {
 
         {filteredQuotations.length === 0 ? (
           <ScaleIn delay={200}>
-            <div className="bg-white rounded-3xl shadow-xl p-16 text-center border border-gray-100">
+            <div className="bg-white rounded-3xl shadow-xl p-8 sm:p-16 text-center border border-gray-100">
               <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <FileText className="h-12 w-12 text-gray-400" />
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">No Quotations Yet</h3>
+              <h3 className="text-xl sm:text-3xl font-bold text-gray-900 mb-4">No Quotations Yet</h3>
               <p className="text-gray-600 text-lg">Start browsing requests to submit your first quotation</p>
             </div>
           </ScaleIn>
@@ -166,8 +166,8 @@ const MyQuotations = () => {
               const StatusIcon = getStatusIcon(quotation.status);
               return (
                 <ScaleIn key={quotation.id} delay={index * 50}>
-                  <div className={`bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100 ${cardAnimations.glow}`}>
-                    <div className="flex items-start justify-between mb-6">
+                  <div className={`bg-white rounded-2xl shadow-lg p-4 sm:p-8 border-2 border-gray-100 ${cardAnimations.glow}`}>
+                    <div className="flex flex-col sm:flex-row items-start justify-between mb-6 gap-4">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-3">
                           <h3 className="text-2xl font-bold text-gray-900">
@@ -183,15 +183,15 @@ const MyQuotations = () => {
                         </p>
                       </div>
 
-                      <div className="text-right">
+                      <div className="text-left sm:text-right">
                         <p className="text-sm text-gray-500 mb-1">Total Amount</p>
-                        <p className="text-4xl font-black bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
+                        <p className="text-2xl sm:text-4xl font-black bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
                           ${quotation.total_amount.toLocaleString()}
                         </p>
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-4 mb-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                       <div className="bg-gradient-to-br from-gray-50 to-white p-4 rounded-xl border border-gray-200">
                         <div className="flex items-center gap-2 mb-2">
                           <Package className="h-5 w-5 text-primary-600" />
@@ -254,7 +254,7 @@ const MyQuotations = () => {
 
         {quotations.length > 0 && (
           <ScrollReveal animation="slideUp">
-            <div className="mt-10 grid md:grid-cols-3 gap-6">
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 { label: 'Total Revenue', value: quotations.filter(q => q.status === 'accepted').reduce((sum, q) => sum + q.total_amount, 0), icon: DollarSign, color: 'from-green-500 to-green-700', prefix: '$' },
                 { label: 'Success Rate', value: quotations.length ? Math.round((statusCounts.accepted / quotations.length) * 100) : 0, icon: TrendingUp, color: 'from-primary-600 to-primary-800', suffix: '%' },
@@ -265,7 +265,7 @@ const MyQuotations = () => {
                   <div key={i} className={`bg-gradient-to-br ${stat.color} rounded-2xl p-6 text-white shadow-xl`}>
                     <Icon className="h-8 w-8 mb-3 opacity-90" />
                     <p className="text-white/80 text-sm font-semibold mb-1">{stat.label}</p>
-                    <p className="text-4xl font-black">
+                    <p className="text-2xl sm:text-4xl font-black">
                       {stat.prefix}
                       <CountUp end={stat.value} duration={2000} />
                       {stat.suffix}

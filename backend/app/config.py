@@ -15,6 +15,10 @@ class Settings(BaseSettings):
     google_application_credentials: Optional[str] = None  # Path to service account JSON
     google_credentials_json: Optional[str] = None  # JSON string of credentials
     
+    # OpenAI Chatbot Configuration
+    openai_api_key: Optional[str] = None
+    openai_model: str = "gpt-4o-mini"
+    
     class Config:
         env_file = ".env"
 
