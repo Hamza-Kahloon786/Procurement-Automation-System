@@ -141,7 +141,7 @@ const QuickCompare = () => {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl mb-4 shadow-xl shadow-primary-600/30">
               <Sparkles className="h-8 w-8 text-white" />
             </div>
-            <h1 className="text-4xl font-black text-gray-900 mb-3">
+            <h1 className="text-2xl sm:text-4xl font-black text-gray-900 mb-3">
               Quick{' '}
               <span className="bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
                 Compare
@@ -362,7 +362,7 @@ const QuickCompare = () => {
                         ${isLowest ? 'border-green-500 bg-gradient-to-br from-green-50 to-white' : 'border-gray-100'}
                         hover:shadow-xl
                       `}>
-                        <div className="flex items-start justify-between">
+                        <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
                           <div className="flex items-center gap-4">
                             <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
                               isLowest ? 'bg-green-500' : 'bg-gray-700'
@@ -388,9 +388,9 @@ const QuickCompare = () => {
                             </div>
                           </div>
                           
-                          <div className="text-right">
+                          <div className="text-left sm:text-right">
                             <p className="text-sm text-gray-500">Total Amount</p>
-                            <p className={`text-3xl font-black ${isLowest ? 'text-green-600' : 'text-gray-900'}`}>
+                            <p className={`text-xl sm:text-3xl font-black ${isLowest ? 'text-green-600' : 'text-gray-900'}`}>
                               ${quot.total_amount.toLocaleString()}
                             </p>
                           </div>
@@ -431,7 +431,7 @@ const QuickCompare = () => {
                         )}
 
                         {/* Details Grid */}
-                        <div className="grid sm:grid-cols-3 gap-4 mt-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
                           {quot.delivery_time_days && (
                             <div className="bg-gray-50 rounded-xl p-3 text-center">
                               <p className="text-xs text-gray-500">Delivery</p>

@@ -92,15 +92,26 @@ const Statistics = () => {
     budget: req.budget / 1000 // in thousands
   }));
 
-  // Monthly Activity (Mock data - would come from backend with timestamps)
-  const monthlyActivity = [
-    { month: 'Jan', requests: 3, quotations: 12 },
-    { month: 'Feb', requests: 5, quotations: 18 },
-    { month: 'Mar', requests: 4, quotations: 15 },
-    { month: 'Apr', requests: 6, quotations: 22 },
-    { month: 'May', requests: 7, quotations: 28 },
-    { month: 'Jun', requests: totalRequests, quotations: totalQuotations }
-  ];
+  // Monthly Activity (computed from real request data using posted_at)
+  const monthlyActivity = (() => {
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthMap = {};
+
+    requests.forEach(r => {
+      const date = r.posted_at ? new Date(r.posted_at) : null;
+      if (!date || isNaN(date.getTime())) return;
+      const key = `${date.getFullYear()}-${date.getMonth()}`;
+      if (!monthMap[key]) {
+        monthMap[key] = { month: monthNames[date.getMonth()], year: date.getFullYear(), requests: 0, quotations: 0 };
+      }
+      monthMap[key].requests += 1;
+      monthMap[key].quotations += (r.quotations_received || 0);
+    });
+
+    return Object.values(monthMap)
+      .sort((a, b) => a.year - b.year || monthNames.indexOf(a.month) - monthNames.indexOf(b.month))
+      .slice(-6);
+  })();
 
   // Performance Metrics
   const metrics = [
@@ -138,7 +149,7 @@ const Statistics = () => {
     <div className="max-w-7xl mx-auto p-6 animate-fade-in">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2 animate-slide-in-left">
+        <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-2 animate-slide-in-left">
           📊 My Procurement Analytics
         </h1>
         <p className="text-gray-600 animate-slide-in-left" style={{ animationDelay: '0.1s' }}>
